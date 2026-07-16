@@ -1,0 +1,650 @@
+{
+  "model": "unet_stream",
+  "layout": "time-major channel vectors",
+  "allocation": "16-byte aligned conflict-aware static arena",
+  "arena_bytes": 2896,
+  "parameter_bytes": 25424,
+  "input_tensor": "input",
+  "output_tensor": "output",
+  "simulated_samples": 2048,
+  "simulated_output_tokens": 2034,
+  "max_output_tokens_per_push": 4,
+  "tensors": [
+    {
+      "id": 0,
+      "name": "input",
+      "channels": 1,
+      "capacity_tokens": 3,
+      "bytes": 12,
+      "offset_bytes": 2880,
+      "producer": -1,
+      "consumers": [
+        0
+      ],
+      "first_live_event": 0,
+      "last_live_event": 19920,
+      "active_events": 19921,
+      "persistent": true,
+      "shares_offset_with": [],
+      "conflicts_with": [
+        "en1_conv",
+        "en1_relu",
+        "en1_pool",
+        "en2_conv",
+        "en2_relu",
+        "en2_pool",
+        "de1_up",
+        "de1_conv",
+        "de1_relu",
+        "de1_skip",
+        "de1_add",
+        "de2_up",
+        "de2_conv",
+        "de2_relu",
+        "de2_skip",
+        "de2_add",
+        "logits",
+        "output"
+      ]
+    },
+    {
+      "id": 1,
+      "name": "en1_conv",
+      "channels": 16,
+      "capacity_tokens": 1,
+      "bytes": 64,
+      "offset_bytes": 2560,
+      "producer": 0,
+      "consumers": [
+        1
+      ],
+      "first_live_event": 5,
+      "last_live_event": 19913,
+      "active_events": 2046,
+      "persistent": false,
+      "shares_offset_with": [],
+      "conflicts_with": [
+        "input",
+        "en1_relu",
+        "en1_pool",
+        "en2_relu",
+        "de1_up",
+        "de1_skip",
+        "de2_up",
+        "de2_skip"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "en1_relu",
+      "channels": 16,
+      "capacity_tokens": 2,
+      "bytes": 128,
+      "offset_bytes": 2432,
+      "producer": 1,
+      "consumers": [
+        2,
+        14
+      ],
+      "first_live_event": 6,
+      "last_live_event": 19915,
+      "active_events": 7161,
+      "persistent": true,
+      "shares_offset_with": [
+        "en2_conv",
+        "en2_pool",
+        "de1_conv",
+        "de1_add",
+        "de2_conv",
+        "de2_add"
+      ],
+      "conflicts_with": [
+        "input",
+        "en1_conv",
+        "en1_pool",
+        "en2_relu",
+        "de1_up",
+        "de1_skip",
+        "de2_up",
+        "de2_skip"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "en1_pool",
+      "channels": 16,
+      "capacity_tokens": 3,
+      "bytes": 192,
+      "offset_bytes": 2688,
+      "producer": 2,
+      "consumers": [
+        3
+      ],
+      "first_live_event": 12,
+      "last_live_event": 19920,
+      "active_events": 19909,
+      "persistent": true,
+      "shares_offset_with": [],
+      "conflicts_with": [
+        "input",
+        "en1_conv",
+        "en1_relu",
+        "en2_conv",
+        "en2_relu",
+        "en2_pool",
+        "de1_up",
+        "de1_conv",
+        "de1_relu",
+        "de1_skip",
+        "de1_add",
+        "de2_up",
+        "de2_conv",
+        "de2_relu",
+        "de2_skip",
+        "de2_add",
+        "logits",
+        "output"
+      ]
+    },
+    {
+      "id": 4,
+      "name": "en2_conv",
+      "channels": 32,
+      "capacity_tokens": 1,
+      "bytes": 128,
+      "offset_bytes": 2432,
+      "producer": 3,
+      "consumers": [
+        4
+      ],
+      "first_live_event": 36,
+      "last_live_event": 19917,
+      "active_events": 1021,
+      "persistent": false,
+      "shares_offset_with": [
+        "en1_relu",
+        "en2_pool",
+        "de1_conv",
+        "de1_add",
+        "de2_conv",
+        "de2_add"
+      ],
+      "conflicts_with": [
+        "input",
+        "en1_pool",
+        "en2_relu",
+        "de1_up",
+        "de1_skip",
+        "de2_up",
+        "de2_skip"
+      ]
+    },
+    {
+      "id": 5,
+      "name": "en2_relu",
+      "channels": 32,
+      "capacity_tokens": 2,
+      "bytes": 256,
+      "offset_bytes": 2176,
+      "producer": 4,
+      "consumers": [
+        5,
+        9
+      ],
+      "first_live_event": 37,
+      "last_live_event": 19920,
+      "active_events": 8163,
+      "persistent": true,
+      "shares_offset_with": [
+        "de1_relu",
+        "de2_relu",
+        "logits"
+      ],
+      "conflicts_with": [
+        "input",
+        "en1_conv",
+        "en1_relu",
+        "en1_pool",
+        "en2_conv",
+        "en2_pool",
+        "de1_up",
+        "de1_skip",
+        "de2_up",
+        "de2_skip"
+      ]
+    },
+    {
+      "id": 6,
+      "name": "en2_pool",
+      "channels": 32,
+      "capacity_tokens": 1,
+      "bytes": 128,
+      "offset_bytes": 2432,
+      "producer": 5,
+      "consumers": [
+        6
+      ],
+      "first_live_event": 52,
+      "last_live_event": 19895,
+      "active_events": 1020,
+      "persistent": false,
+      "shares_offset_with": [
+        "en1_relu",
+        "en2_conv",
+        "de1_conv",
+        "de1_add",
+        "de2_conv",
+        "de2_add"
+      ],
+      "conflicts_with": [
+        "input",
+        "en1_pool",
+        "en2_relu",
+        "de1_up",
+        "de1_skip",
+        "de2_up",
+        "de2_skip"
+      ]
+    },
+    {
+      "id": 7,
+      "name": "de1_up",
+      "channels": 32,
+      "capacity_tokens": 4,
+      "bytes": 512,
+      "offset_bytes": 768,
+      "producer": 6,
+      "consumers": [
+        7
+      ],
+      "first_live_event": 54,
+      "last_live_event": 19920,
+      "active_events": 19867,
+      "persistent": true,
+      "shares_offset_with": [],
+      "conflicts_with": [
+        "input",
+        "en1_conv",
+        "en1_relu",
+        "en1_pool",
+        "en2_conv",
+        "en2_relu",
+        "en2_pool",
+        "de1_conv",
+        "de1_relu",
+        "de1_skip",
+        "de1_add",
+        "de2_up",
+        "de2_conv",
+        "de2_relu",
+        "de2_skip",
+        "de2_add",
+        "logits",
+        "output"
+      ]
+    },
+    {
+      "id": 8,
+      "name": "de1_conv",
+      "channels": 32,
+      "capacity_tokens": 2,
+      "bytes": 256,
+      "offset_bytes": 2432,
+      "producer": 7,
+      "consumers": [
+        8
+      ],
+      "first_live_event": 85,
+      "last_live_event": 19897,
+      "active_events": 509,
+      "persistent": false,
+      "shares_offset_with": [
+        "en1_relu",
+        "en2_conv",
+        "en2_pool",
+        "de1_add",
+        "de2_conv",
+        "de2_add"
+      ],
+      "conflicts_with": [
+        "input",
+        "en1_pool",
+        "de1_up",
+        "de1_relu",
+        "de1_skip",
+        "de2_up",
+        "de2_skip"
+      ]
+    },
+    {
+      "id": 9,
+      "name": "de1_relu",
+      "channels": 32,
+      "capacity_tokens": 2,
+      "bytes": 256,
+      "offset_bytes": 2176,
+      "producer": 8,
+      "consumers": [
+        10
+      ],
+      "first_live_event": 86,
+      "last_live_event": 19898,
+      "active_events": 509,
+      "persistent": false,
+      "shares_offset_with": [
+        "en2_relu",
+        "de2_relu",
+        "logits"
+      ],
+      "conflicts_with": [
+        "input",
+        "en1_pool",
+        "de1_up",
+        "de1_conv",
+        "de1_skip",
+        "de1_add",
+        "de2_up",
+        "de2_skip"
+      ]
+    },
+    {
+      "id": 10,
+      "name": "de1_skip",
+      "channels": 32,
+      "capacity_tokens": 3,
+      "bytes": 384,
+      "offset_bytes": 1792,
+      "producer": 9,
+      "consumers": [
+        10
+      ],
+      "first_live_event": 53,
+      "last_live_event": 19920,
+      "active_events": 19868,
+      "persistent": true,
+      "shares_offset_with": [],
+      "conflicts_with": [
+        "input",
+        "en1_conv",
+        "en1_relu",
+        "en1_pool",
+        "en2_conv",
+        "en2_relu",
+        "en2_pool",
+        "de1_up",
+        "de1_conv",
+        "de1_relu",
+        "de1_add",
+        "de2_up",
+        "de2_conv",
+        "de2_relu",
+        "de2_skip",
+        "de2_add",
+        "logits",
+        "output"
+      ]
+    },
+    {
+      "id": 11,
+      "name": "de1_add",
+      "channels": 32,
+      "capacity_tokens": 2,
+      "bytes": 256,
+      "offset_bytes": 2432,
+      "producer": 10,
+      "consumers": [
+        11
+      ],
+      "first_live_event": 87,
+      "last_live_event": 19899,
+      "active_events": 509,
+      "persistent": false,
+      "shares_offset_with": [
+        "en1_relu",
+        "en2_conv",
+        "en2_pool",
+        "de1_conv",
+        "de2_conv",
+        "de2_add"
+      ],
+      "conflicts_with": [
+        "input",
+        "en1_pool",
+        "de1_up",
+        "de1_relu",
+        "de1_skip",
+        "de2_up",
+        "de2_skip"
+      ]
+    },
+    {
+      "id": 12,
+      "name": "de2_up",
+      "channels": 32,
+      "capacity_tokens": 6,
+      "bytes": 768,
+      "offset_bytes": 0,
+      "producer": 11,
+      "consumers": [
+        12
+      ],
+      "first_live_event": 88,
+      "last_live_event": 19920,
+      "active_events": 19833,
+      "persistent": true,
+      "shares_offset_with": [],
+      "conflicts_with": [
+        "input",
+        "en1_conv",
+        "en1_relu",
+        "en1_pool",
+        "en2_conv",
+        "en2_relu",
+        "en2_pool",
+        "de1_up",
+        "de1_conv",
+        "de1_relu",
+        "de1_skip",
+        "de1_add",
+        "de2_conv",
+        "de2_relu",
+        "de2_skip",
+        "de2_add",
+        "logits",
+        "output"
+      ]
+    },
+    {
+      "id": 13,
+      "name": "de2_conv",
+      "channels": 16,
+      "capacity_tokens": 4,
+      "bytes": 256,
+      "offset_bytes": 2432,
+      "producer": 12,
+      "consumers": [
+        13
+      ],
+      "first_live_event": 89,
+      "last_live_event": 19901,
+      "active_events": 509,
+      "persistent": false,
+      "shares_offset_with": [
+        "en1_relu",
+        "en2_conv",
+        "en2_pool",
+        "de1_conv",
+        "de1_add",
+        "de2_add"
+      ],
+      "conflicts_with": [
+        "input",
+        "en1_pool",
+        "de1_up",
+        "de1_skip",
+        "de2_up",
+        "de2_relu",
+        "de2_skip"
+      ]
+    },
+    {
+      "id": 14,
+      "name": "de2_relu",
+      "channels": 16,
+      "capacity_tokens": 4,
+      "bytes": 256,
+      "offset_bytes": 2176,
+      "producer": 13,
+      "consumers": [
+        15
+      ],
+      "first_live_event": 90,
+      "last_live_event": 19902,
+      "active_events": 509,
+      "persistent": false,
+      "shares_offset_with": [
+        "en2_relu",
+        "de1_relu",
+        "logits"
+      ],
+      "conflicts_with": [
+        "input",
+        "en1_pool",
+        "de1_up",
+        "de1_skip",
+        "de2_up",
+        "de2_conv",
+        "de2_skip",
+        "de2_add"
+      ]
+    },
+    {
+      "id": 15,
+      "name": "de2_skip",
+      "channels": 16,
+      "capacity_tokens": 8,
+      "bytes": 512,
+      "offset_bytes": 1280,
+      "producer": 14,
+      "consumers": [
+        15
+      ],
+      "first_live_event": 43,
+      "last_live_event": 19920,
+      "active_events": 19878,
+      "persistent": true,
+      "shares_offset_with": [],
+      "conflicts_with": [
+        "input",
+        "en1_conv",
+        "en1_relu",
+        "en1_pool",
+        "en2_conv",
+        "en2_relu",
+        "en2_pool",
+        "de1_up",
+        "de1_conv",
+        "de1_relu",
+        "de1_skip",
+        "de1_add",
+        "de2_up",
+        "de2_conv",
+        "de2_relu",
+        "de2_add",
+        "logits",
+        "output"
+      ]
+    },
+    {
+      "id": 16,
+      "name": "de2_add",
+      "channels": 16,
+      "capacity_tokens": 4,
+      "bytes": 256,
+      "offset_bytes": 2432,
+      "producer": 15,
+      "consumers": [
+        16
+      ],
+      "first_live_event": 91,
+      "last_live_event": 19903,
+      "active_events": 509,
+      "persistent": false,
+      "shares_offset_with": [
+        "en1_relu",
+        "en2_conv",
+        "en2_pool",
+        "de1_conv",
+        "de1_add",
+        "de2_conv"
+      ],
+      "conflicts_with": [
+        "input",
+        "en1_pool",
+        "de1_up",
+        "de1_skip",
+        "de2_up",
+        "de2_relu",
+        "de2_skip",
+        "logits"
+      ]
+    },
+    {
+      "id": 17,
+      "name": "logits",
+      "channels": 4,
+      "capacity_tokens": 4,
+      "bytes": 64,
+      "offset_bytes": 2176,
+      "producer": 16,
+      "consumers": [
+        17
+      ],
+      "first_live_event": 92,
+      "last_live_event": 19904,
+      "active_events": 509,
+      "persistent": false,
+      "shares_offset_with": [
+        "en2_relu",
+        "de1_relu",
+        "de2_relu"
+      ],
+      "conflicts_with": [
+        "input",
+        "en1_pool",
+        "de1_up",
+        "de1_skip",
+        "de2_up",
+        "de2_skip",
+        "de2_add",
+        "output"
+      ]
+    },
+    {
+      "id": 18,
+      "name": "output",
+      "channels": 4,
+      "capacity_tokens": 4,
+      "bytes": 64,
+      "offset_bytes": 2240,
+      "producer": 17,
+      "consumers": [
+        65535
+      ],
+      "first_live_event": 93,
+      "last_live_event": 19905,
+      "active_events": 509,
+      "persistent": false,
+      "shares_offset_with": [],
+      "conflicts_with": [
+        "input",
+        "en1_pool",
+        "de1_up",
+        "de1_skip",
+        "de2_up",
+        "de2_skip",
+        "logits"
+      ]
+    }
+  ]
+}

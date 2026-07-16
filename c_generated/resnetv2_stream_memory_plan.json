@@ -1,0 +1,753 @@
+{
+  "model": "resnetv2_stream",
+  "layout": "time-major channel vectors",
+  "allocation": "16-byte aligned conflict-aware static arena",
+  "arena_bytes": 1808,
+  "parameter_bytes": 28432,
+  "input_tensor": "input",
+  "output_tensor": "output",
+  "simulated_samples": 2048,
+  "simulated_output_tokens": 2038,
+  "max_output_tokens_per_push": 1,
+  "tensors": [
+    {
+      "id": 0,
+      "name": "input",
+      "channels": 1,
+      "capacity_tokens": 3,
+      "bytes": 12,
+      "offset_bytes": 1792,
+      "producer": -1,
+      "consumers": [
+        0
+      ],
+      "first_live_event": 0,
+      "last_live_event": 44927,
+      "active_events": 44928,
+      "persistent": true,
+      "shares_offset_with": [],
+      "conflicts_with": [
+        "stem",
+        "block1_bn",
+        "block1_relu0",
+        "block1_conv1",
+        "block1_relu1",
+        "block1_main",
+        "block1_skip",
+        "block1_add",
+        "block2_proj",
+        "block2_bn",
+        "block2_relu0",
+        "block2_conv1",
+        "block2_relu1",
+        "block2_main",
+        "block2_skip",
+        "block2_add",
+        "final_bn",
+        "final_relu",
+        "logits",
+        "output"
+      ]
+    },
+    {
+      "id": 1,
+      "name": "stem",
+      "channels": 16,
+      "capacity_tokens": 1,
+      "bytes": 64,
+      "offset_bytes": 1536,
+      "producer": 0,
+      "consumers": [
+        1,
+        6
+      ],
+      "first_live_event": 5,
+      "last_live_event": 44908,
+      "active_events": 4092,
+      "persistent": false,
+      "shares_offset_with": [
+        "block1_conv1",
+        "block1_main",
+        "block2_proj",
+        "block2_conv1",
+        "block2_add",
+        "final_relu",
+        "output"
+      ],
+      "conflicts_with": [
+        "input",
+        "block1_bn",
+        "block1_relu0",
+        "block1_relu1",
+        "block1_skip",
+        "block2_relu0",
+        "block2_relu1",
+        "block2_skip"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "block1_bn",
+      "channels": 16,
+      "capacity_tokens": 1,
+      "bytes": 64,
+      "offset_bytes": 1600,
+      "producer": 1,
+      "consumers": [
+        2
+      ],
+      "first_live_event": 6,
+      "last_live_event": 44909,
+      "active_events": 4092,
+      "persistent": false,
+      "shares_offset_with": [],
+      "conflicts_with": [
+        "input",
+        "stem",
+        "block1_relu0",
+        "block1_relu1",
+        "block1_skip",
+        "block2_relu0",
+        "block2_relu1",
+        "block2_skip"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "block1_relu0",
+      "channels": 16,
+      "capacity_tokens": 3,
+      "bytes": 192,
+      "offset_bytes": 768,
+      "producer": 2,
+      "consumers": [
+        3
+      ],
+      "first_live_event": 8,
+      "last_live_event": 44927,
+      "active_events": 44920,
+      "persistent": true,
+      "shares_offset_with": [],
+      "conflicts_with": [
+        "input",
+        "stem",
+        "block1_bn",
+        "block1_conv1",
+        "block1_relu1",
+        "block1_main",
+        "block1_skip",
+        "block1_add",
+        "block2_proj",
+        "block2_bn",
+        "block2_relu0",
+        "block2_conv1",
+        "block2_relu1",
+        "block2_main",
+        "block2_skip",
+        "block2_add",
+        "final_bn",
+        "final_relu",
+        "logits",
+        "output"
+      ]
+    },
+    {
+      "id": 4,
+      "name": "block1_conv1",
+      "channels": 16,
+      "capacity_tokens": 1,
+      "bytes": 64,
+      "offset_bytes": 1536,
+      "producer": 3,
+      "consumers": [
+        4
+      ],
+      "first_live_event": 21,
+      "last_live_event": 44911,
+      "active_events": 2044,
+      "persistent": false,
+      "shares_offset_with": [
+        "stem",
+        "block1_main",
+        "block2_proj",
+        "block2_conv1",
+        "block2_add",
+        "final_relu",
+        "output"
+      ],
+      "conflicts_with": [
+        "input",
+        "block1_relu0",
+        "block1_relu1",
+        "block1_skip",
+        "block2_relu0",
+        "block2_relu1",
+        "block2_skip"
+      ]
+    },
+    {
+      "id": 5,
+      "name": "block1_relu1",
+      "channels": 16,
+      "capacity_tokens": 3,
+      "bytes": 192,
+      "offset_bytes": 960,
+      "producer": 4,
+      "consumers": [
+        5
+      ],
+      "first_live_event": 22,
+      "last_live_event": 44927,
+      "active_events": 44906,
+      "persistent": true,
+      "shares_offset_with": [],
+      "conflicts_with": [
+        "input",
+        "stem",
+        "block1_bn",
+        "block1_relu0",
+        "block1_conv1",
+        "block1_main",
+        "block1_skip",
+        "block1_add",
+        "block2_proj",
+        "block2_bn",
+        "block2_relu0",
+        "block2_conv1",
+        "block2_relu1",
+        "block2_main",
+        "block2_skip",
+        "block2_add",
+        "final_bn",
+        "final_relu",
+        "logits",
+        "output"
+      ]
+    },
+    {
+      "id": 6,
+      "name": "block1_main",
+      "channels": 16,
+      "capacity_tokens": 1,
+      "bytes": 64,
+      "offset_bytes": 1536,
+      "producer": 5,
+      "consumers": [
+        7
+      ],
+      "first_live_event": 39,
+      "last_live_event": 44913,
+      "active_events": 2042,
+      "persistent": false,
+      "shares_offset_with": [
+        "stem",
+        "block1_conv1",
+        "block2_proj",
+        "block2_conv1",
+        "block2_add",
+        "final_relu",
+        "output"
+      ],
+      "conflicts_with": [
+        "input",
+        "block1_relu0",
+        "block1_relu1",
+        "block1_skip",
+        "block1_add",
+        "block2_relu0",
+        "block2_relu1",
+        "block2_skip"
+      ]
+    },
+    {
+      "id": 7,
+      "name": "block1_skip",
+      "channels": 16,
+      "capacity_tokens": 3,
+      "bytes": 192,
+      "offset_bytes": 1152,
+      "producer": 6,
+      "consumers": [
+        7
+      ],
+      "first_live_event": 19,
+      "last_live_event": 44927,
+      "active_events": 44909,
+      "persistent": true,
+      "shares_offset_with": [],
+      "conflicts_with": [
+        "input",
+        "stem",
+        "block1_bn",
+        "block1_relu0",
+        "block1_conv1",
+        "block1_relu1",
+        "block1_main",
+        "block1_add",
+        "block2_proj",
+        "block2_bn",
+        "block2_relu0",
+        "block2_conv1",
+        "block2_relu1",
+        "block2_main",
+        "block2_skip",
+        "block2_add",
+        "final_bn",
+        "final_relu",
+        "logits",
+        "output"
+      ]
+    },
+    {
+      "id": 8,
+      "name": "block1_add",
+      "channels": 16,
+      "capacity_tokens": 1,
+      "bytes": 64,
+      "offset_bytes": 1664,
+      "producer": 7,
+      "consumers": [
+        8,
+        9
+      ],
+      "first_live_event": 40,
+      "last_live_event": 44915,
+      "active_events": 4084,
+      "persistent": false,
+      "shares_offset_with": [
+        "block2_main",
+        "final_bn",
+        "logits"
+      ],
+      "conflicts_with": [
+        "input",
+        "block1_relu0",
+        "block1_relu1",
+        "block1_main",
+        "block1_skip",
+        "block2_proj",
+        "block2_bn",
+        "block2_relu0",
+        "block2_relu1",
+        "block2_skip"
+      ]
+    },
+    {
+      "id": 9,
+      "name": "block2_proj",
+      "channels": 32,
+      "capacity_tokens": 1,
+      "bytes": 128,
+      "offset_bytes": 1536,
+      "producer": 8,
+      "consumers": [
+        14
+      ],
+      "first_live_event": 41,
+      "last_live_event": 44916,
+      "active_events": 4084,
+      "persistent": false,
+      "shares_offset_with": [
+        "stem",
+        "block1_conv1",
+        "block1_main",
+        "block2_conv1",
+        "block2_add",
+        "final_relu",
+        "output"
+      ],
+      "conflicts_with": [
+        "input",
+        "block1_relu0",
+        "block1_relu1",
+        "block1_skip",
+        "block1_add",
+        "block2_bn",
+        "block2_relu0",
+        "block2_relu1",
+        "block2_skip"
+      ]
+    },
+    {
+      "id": 10,
+      "name": "block2_bn",
+      "channels": 16,
+      "capacity_tokens": 1,
+      "bytes": 64,
+      "offset_bytes": 1728,
+      "producer": 9,
+      "consumers": [
+        10
+      ],
+      "first_live_event": 42,
+      "last_live_event": 44917,
+      "active_events": 4084,
+      "persistent": false,
+      "shares_offset_with": [],
+      "conflicts_with": [
+        "input",
+        "block1_relu0",
+        "block1_relu1",
+        "block1_skip",
+        "block1_add",
+        "block2_proj",
+        "block2_relu0",
+        "block2_relu1",
+        "block2_skip"
+      ]
+    },
+    {
+      "id": 11,
+      "name": "block2_relu0",
+      "channels": 16,
+      "capacity_tokens": 3,
+      "bytes": 192,
+      "offset_bytes": 1344,
+      "producer": 10,
+      "consumers": [
+        11
+      ],
+      "first_live_event": 44,
+      "last_live_event": 44927,
+      "active_events": 44884,
+      "persistent": true,
+      "shares_offset_with": [],
+      "conflicts_with": [
+        "input",
+        "stem",
+        "block1_bn",
+        "block1_relu0",
+        "block1_conv1",
+        "block1_relu1",
+        "block1_main",
+        "block1_skip",
+        "block1_add",
+        "block2_proj",
+        "block2_bn",
+        "block2_conv1",
+        "block2_relu1",
+        "block2_main",
+        "block2_skip",
+        "block2_add",
+        "final_bn",
+        "final_relu",
+        "logits",
+        "output"
+      ]
+    },
+    {
+      "id": 12,
+      "name": "block2_conv1",
+      "channels": 32,
+      "capacity_tokens": 1,
+      "bytes": 128,
+      "offset_bytes": 1536,
+      "producer": 11,
+      "consumers": [
+        12
+      ],
+      "first_live_event": 73,
+      "last_live_event": 44919,
+      "active_events": 2040,
+      "persistent": false,
+      "shares_offset_with": [
+        "stem",
+        "block1_conv1",
+        "block1_main",
+        "block2_proj",
+        "block2_add",
+        "final_relu",
+        "output"
+      ],
+      "conflicts_with": [
+        "input",
+        "block1_relu0",
+        "block1_relu1",
+        "block1_skip",
+        "block2_relu0",
+        "block2_relu1",
+        "block2_skip"
+      ]
+    },
+    {
+      "id": 13,
+      "name": "block2_relu1",
+      "channels": 32,
+      "capacity_tokens": 3,
+      "bytes": 384,
+      "offset_bytes": 0,
+      "producer": 12,
+      "consumers": [
+        13
+      ],
+      "first_live_event": 74,
+      "last_live_event": 44927,
+      "active_events": 44854,
+      "persistent": true,
+      "shares_offset_with": [],
+      "conflicts_with": [
+        "input",
+        "stem",
+        "block1_bn",
+        "block1_relu0",
+        "block1_conv1",
+        "block1_relu1",
+        "block1_main",
+        "block1_skip",
+        "block1_add",
+        "block2_proj",
+        "block2_bn",
+        "block2_relu0",
+        "block2_conv1",
+        "block2_main",
+        "block2_skip",
+        "block2_add",
+        "final_bn",
+        "final_relu",
+        "logits",
+        "output"
+      ]
+    },
+    {
+      "id": 14,
+      "name": "block2_main",
+      "channels": 32,
+      "capacity_tokens": 1,
+      "bytes": 128,
+      "offset_bytes": 1664,
+      "producer": 13,
+      "consumers": [
+        15
+      ],
+      "first_live_event": 107,
+      "last_live_event": 44921,
+      "active_events": 2038,
+      "persistent": false,
+      "shares_offset_with": [
+        "block1_add",
+        "final_bn",
+        "logits"
+      ],
+      "conflicts_with": [
+        "input",
+        "block1_relu0",
+        "block1_relu1",
+        "block1_skip",
+        "block2_relu0",
+        "block2_relu1",
+        "block2_skip",
+        "block2_add"
+      ]
+    },
+    {
+      "id": 15,
+      "name": "block2_skip",
+      "channels": 32,
+      "capacity_tokens": 3,
+      "bytes": 384,
+      "offset_bytes": 384,
+      "producer": 14,
+      "consumers": [
+        15
+      ],
+      "first_live_event": 71,
+      "last_live_event": 44927,
+      "active_events": 44857,
+      "persistent": true,
+      "shares_offset_with": [],
+      "conflicts_with": [
+        "input",
+        "stem",
+        "block1_bn",
+        "block1_relu0",
+        "block1_conv1",
+        "block1_relu1",
+        "block1_main",
+        "block1_skip",
+        "block1_add",
+        "block2_proj",
+        "block2_bn",
+        "block2_relu0",
+        "block2_conv1",
+        "block2_relu1",
+        "block2_main",
+        "block2_add",
+        "final_bn",
+        "final_relu",
+        "logits",
+        "output"
+      ]
+    },
+    {
+      "id": 16,
+      "name": "block2_add",
+      "channels": 32,
+      "capacity_tokens": 1,
+      "bytes": 128,
+      "offset_bytes": 1536,
+      "producer": 15,
+      "consumers": [
+        16
+      ],
+      "first_live_event": 108,
+      "last_live_event": 44922,
+      "active_events": 2038,
+      "persistent": false,
+      "shares_offset_with": [
+        "stem",
+        "block1_conv1",
+        "block1_main",
+        "block2_proj",
+        "block2_conv1",
+        "final_relu",
+        "output"
+      ],
+      "conflicts_with": [
+        "input",
+        "block1_relu0",
+        "block1_relu1",
+        "block1_skip",
+        "block2_relu0",
+        "block2_relu1",
+        "block2_main",
+        "block2_skip",
+        "final_bn"
+      ]
+    },
+    {
+      "id": 17,
+      "name": "final_bn",
+      "channels": 32,
+      "capacity_tokens": 1,
+      "bytes": 128,
+      "offset_bytes": 1664,
+      "producer": 16,
+      "consumers": [
+        17
+      ],
+      "first_live_event": 109,
+      "last_live_event": 44923,
+      "active_events": 2038,
+      "persistent": false,
+      "shares_offset_with": [
+        "block1_add",
+        "block2_main",
+        "logits"
+      ],
+      "conflicts_with": [
+        "input",
+        "block1_relu0",
+        "block1_relu1",
+        "block1_skip",
+        "block2_relu0",
+        "block2_relu1",
+        "block2_skip",
+        "block2_add",
+        "final_relu"
+      ]
+    },
+    {
+      "id": 18,
+      "name": "final_relu",
+      "channels": 32,
+      "capacity_tokens": 1,
+      "bytes": 128,
+      "offset_bytes": 1536,
+      "producer": 17,
+      "consumers": [
+        18
+      ],
+      "first_live_event": 110,
+      "last_live_event": 44924,
+      "active_events": 2038,
+      "persistent": false,
+      "shares_offset_with": [
+        "stem",
+        "block1_conv1",
+        "block1_main",
+        "block2_proj",
+        "block2_conv1",
+        "block2_add",
+        "output"
+      ],
+      "conflicts_with": [
+        "input",
+        "block1_relu0",
+        "block1_relu1",
+        "block1_skip",
+        "block2_relu0",
+        "block2_relu1",
+        "block2_skip",
+        "final_bn",
+        "logits"
+      ]
+    },
+    {
+      "id": 19,
+      "name": "logits",
+      "channels": 4,
+      "capacity_tokens": 1,
+      "bytes": 16,
+      "offset_bytes": 1664,
+      "producer": 18,
+      "consumers": [
+        19
+      ],
+      "first_live_event": 111,
+      "last_live_event": 44925,
+      "active_events": 2038,
+      "persistent": false,
+      "shares_offset_with": [
+        "block1_add",
+        "block2_main",
+        "final_bn"
+      ],
+      "conflicts_with": [
+        "input",
+        "block1_relu0",
+        "block1_relu1",
+        "block1_skip",
+        "block2_relu0",
+        "block2_relu1",
+        "block2_skip",
+        "final_relu",
+        "output"
+      ]
+    },
+    {
+      "id": 20,
+      "name": "output",
+      "channels": 4,
+      "capacity_tokens": 1,
+      "bytes": 16,
+      "offset_bytes": 1536,
+      "producer": 19,
+      "consumers": [
+        65535
+      ],
+      "first_live_event": 112,
+      "last_live_event": 44926,
+      "active_events": 2038,
+      "persistent": false,
+      "shares_offset_with": [
+        "stem",
+        "block1_conv1",
+        "block1_main",
+        "block2_proj",
+        "block2_conv1",
+        "block2_add",
+        "final_relu"
+      ],
+      "conflicts_with": [
+        "input",
+        "block1_relu0",
+        "block1_relu1",
+        "block1_skip",
+        "block2_relu0",
+        "block2_relu1",
+        "block2_skip",
+        "logits"
+      ]
+    }
+  ]
+}
