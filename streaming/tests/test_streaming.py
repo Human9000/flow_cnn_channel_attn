@@ -4,8 +4,8 @@ import onnx
 import onnxruntime as ort
 import torch
 
-from convert_unet import convert
-from unet_model import DeBlock, EnBlock, UNetAttn
+from streaming.converters.convert_unet import convert
+from streaming.models.unet import DeBlock, EnBlock, UNetAttn
 
 
 def export(model, dummy):

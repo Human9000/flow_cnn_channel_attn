@@ -13,28 +13,33 @@
 ## 项目结构
 
 ```
-├── 竞争互补.py              # 竞争-互补耦合模块 (GroupMHA)
-├── 竞争互补.md              # 理论推导与设计文档
-├── 方案.md                  # 流式推理数值一致性方案
-├── GSE/
-│   └── gse.py               # 粒化压缩-激励模块 (GranularSE)
-├── resnet50_model.py        # ResNet50 模型定义
-├── unet_model.py            # UNet 模型定义
-├── convert_resnet50.py      # ResNet50 → ONNX 转换
-├── convert_unet.py          # UNet → ONNX 转换
-├── export_streaming_c.py    # ONNX → C 代码生成
-├── c_runtime/
-│   ├── stream_runtime.h     # 流式推理 C 运行时头文件
-│   └── stream_runtime.c     # 流式推理 C 运行时实现
-├── c_generated/
-│   ├── resnetv2_stream.c/h  # ResNetV2 生成的流式 C 代码
-│   └── unet_stream.c/h      # UNet 生成的流式 C 代码
-├── test_streaming.py        # 流式推理一致性测试
-├── test_streaming_c.py      # C 运行时测试
-├── _verify_perlayer.py      # 逐层验证脚本
-├── verify_valid.py          # 端到端验证脚本
-├── analyze.py               # 模型分析工具
-└── test_resnet50.py         # ResNet50 测试
+├── channel_attn/                # 竞争-互补注意力模块
+│   ├── group_mha.py             #   核心实现 (MultiHeadAttention + GroupMHA)
+│   ├── theory.md                #   理论推导与设计文档
+│   └── gse.py                   #   粒化压缩-激励模块 (GranularSE)
+├── streaming/                   # 流式推理框架
+│   ├── design.md                #   数值一致性方案
+│   ├── models/
+│   │   ├── resnet50.py          #   ResNet50 模型定义
+│   │   └── unet.py              #   UNet 模型定义
+│   ├── converters/
+│   │   ├── convert_resnet50.py  #   ResNet50 → ONNX 流式转换
+│   │   ├── convert_unet.py      #   UNet → ONNX 流式转换
+│   │   └── export_c.py          #   ONNX → C 代码生成
+│   ├── c_runtime/
+│   │   ├── stream_runtime.h     #   流式推理 C 运行时头文件
+│   │   └── stream_runtime.c     #   流式推理 C 运行时实现
+│   ├── c_generated/             #   生成的 C 代码与内存规划
+│   ├── tests/
+│   │   ├── test_streaming.py    #   流式 vs 整段一致性
+│   │   ├── test_streaming_c.py  #   C 运行时测试
+│   │   ├── test_resnet50.py     #   ResNet50 测试
+│   │   ├── verify_perlayer.py   #   逐层验证
+│   │   └── verify_valid.py      #   端到端验证
+│   └── analyze.py               #   模型分析工具
+├── README.md
+├── CLAUDE.md
+└── .gitignore
 ```
 
 ## 竞争-互补耦合模块
@@ -46,7 +51,7 @@
 我们将 C 个通道拆分为 L=8 个原型组，每组有 F=C/L 维特征，然后在组序列上应用标准多头注意力 (MHA)：
 
 ```python
-from 竞争互补 import GroupMHA
+from channel_attn.group_mha import GroupMHA
 
 # channels 必须能被 8 整除
 attn = GroupMHA(channels=256, L=8, num_heads=1, dropout_rate=0.1)
@@ -64,14 +69,14 @@ out = attn(x)  # x: (B, C, H, W) → (B, C, H, W)
 
 ```python
 # 模型训练与导出
-python resnet50_model.py          # 定义模型
-python convert_resnet50.py        # 导出 ONNX
-python export_streaming_c.py      # 生成 C 代码 + 内存规划
+python streaming/models/resnet50.py          # 定义模型
+python streaming/converters/convert_resnet50.py  # 导出 ONNX
+python streaming/converters/export_c.py      # 生成 C 代码 + 内存规划
 
 # 测试验证
-python test_streaming.py          # 流式 vs 整段一致性
-python test_streaming_c.py        # C 运行时测试
-python _verify_perlayer.py        # 逐层精度验证
+python streaming/tests/test_streaming.py     # 流式 vs 整段一致性
+python streaming/tests/test_streaming_c.py   # C 运行时测试
+python streaming/tests/verify_perlayer.py    # 逐层精度验证
 ```
 
 C 运行时使用示例：
@@ -98,7 +103,7 @@ stream_free(&ctx);
 通过两级组卷积空间下采样 (16×) 后进行通道挤压-激励，再上采样回原尺寸：
 
 ```python
-from GSE.gse import GranularSE
+from channel_attn.gse import GranularSE
 
 se = GranularSE(channels=64, reduction=16)
 out = se(x)  # 输入尺寸需为 16 的倍数
@@ -106,7 +111,7 @@ out = se(x)  # 输入尺寸需为 16 的倍数
 
 ## 引用
 
-详细理论推导见 [竞争互补.md](竞争互补.md)，流式推理方案见 [方案.md](方案.md)。
+详细理论推导见 [channel_attn/theory.md](channel_attn/theory.md)，流式推理方案见 [streaming/design.md](streaming/design.md)。
 
 ## 许可
 

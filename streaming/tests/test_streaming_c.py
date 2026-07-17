@@ -7,9 +7,9 @@ from pathlib import Path
 import numpy as np
 import onnxruntime as ort
 
-from export_streaming_c import build_unet, emit
+from streaming.converters.export_c import build_unet, emit
 
-ROOT = Path(__file__).parent
+ROOT = Path(__file__).parent.parent
 GENERATED = ROOT / "c_generated"
 
 
