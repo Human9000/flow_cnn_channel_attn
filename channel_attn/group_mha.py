@@ -11,7 +11,7 @@ class MultiHeadAttention(nn.Module):
     - 输入形状: (N, S, E) → 输出形状: (N, S, E)
     """
 
-    def __init__(self, embed_dim, num_heads=1, qk_dim=None,
+    def __init__(self, embed_dim, num_heads=4, qk_dim=None,
                  dropout_rate=0.1, activation='softmax'):
         super().__init__()
         assert activation in ('softmax', 'sigmoid', 'competition', 'simple', 'sparse'), (
