@@ -85,7 +85,7 @@ class RCCA(nn.Module):
                  p=2,
                  competition='rank', 
                  regularization='shrc',
-                 0lambda_shrc=0.01, 
+                 lambda_shrc=0.01, 
                  dropout_rate=0.1):
         super().__init__()
         assert channels % L == 0
