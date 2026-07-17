@@ -10,7 +10,7 @@ import math
 #
 # 双开关:
 #   competition   = 'softmax' | 'rank'     — 竞争机制
-#   regularization = 'dropout' | 'shrc'    — 正则化机制
+#   regularization = 'dropout' | 'shrc'    — 互补正则化机制
 #
 # SHRC 作用于 scores (N,h,L,L), 同时覆盖 h 和 L 两个维度
 # ==============================================================
@@ -77,9 +77,16 @@ class RCCA(nn.Module):
     (B, C, H, W) -> (B, C, H, W), C = L * F
     """
 
-    def __init__(self, channels, L=8, num_heads=1, qk_dim=None, p=2,
-                 competition='rank', regularization='shrc',
-                 lambda_shrc=0.01, dropout_rate=0.1):
+    def __init__(self, 
+                 channels, 
+                 L=8,
+                 num_heads=1,
+                 qk_dim=None, 
+                 p=2,
+                 competition='rank', 
+                 regularization='shrc',
+                 0lambda_shrc=0.01, 
+                 dropout_rate=0.1):
         super().__init__()
         assert channels % L == 0
         assert competition in ('softmax', 'rank')
@@ -130,7 +137,7 @@ class RCCA(nn.Module):
         scores = torch.matmul(Q, K.transpose(-2, -1)) / self.scale  # (N,h,L,L)
         scores = self.dropout(scores)
 
-        # ---- SHRC 作用于 scores (N,h,L,L), 同时覆盖 h 和 L ----
+        # ---- SHRC 作用于 scores (N,h,L,L), 同时覆盖 h 和 L 做特征互补 ----
         if self.training and self.regularization == 'shrc' and self.num_heads > 1:
             scores = InjectSHRC.apply(scores, self.lambda_shrc, self.num_heads, self.L)
 
