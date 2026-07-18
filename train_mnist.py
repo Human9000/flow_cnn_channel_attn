@@ -62,19 +62,49 @@ class MNISTNet(nn.Module):
         return self.head(x)
 
 
-def train(model, loader, opt, device):
+def train(model, loader, opt, device, verbose=True, print_every=10):
+    """训练一个 epoch，并可选地打印 batch 级进度。
+
+    参数:
+      model: nn.Module
+      loader: DataLoader
+      opt: optimizer
+      device: torch.device
+      verbose: 是否打印进度（默认 True）
+      print_every: 每隔多少个 batch 输出一次（默认 10）
+
+    返回:
+      (avg_loss, avg_acc)
+    """
     model.train()
     total, correct, loss_sum = 0, 0, 0.0
-    for x, y in loader:
+    try:
+        num_batches = len(loader)
+    except Exception:
+        num_batches = 0
+
+    for i, (x, y) in enumerate(loader, start=1):
         x, y = x.to(device), y.to(device)
         out = model(x)
         loss = F.cross_entropy(out, y)
         opt.zero_grad()
         loss.backward()
         opt.step()
-        total += y.size(0)
+        batch_n = y.size(0)
+        total += batch_n
         correct += (out.argmax(1) == y).sum().item()
-        loss_sum += loss.item() * y.size(0)
+        loss_sum += loss.item() * batch_n
+
+        if verbose and num_batches > 0 and (i % print_every == 0 or i == num_batches):
+            loss_avg = loss_sum / total if total > 0 else 0.0
+            acc_avg = correct / total if total > 0 else 0.0
+            # 使用回车覆盖当前行，PowerShell / Linux 终端均支持
+            print(f"\r    batch {i}/{num_batches}  loss={loss_avg:.4f}  acc={acc_avg:.3f}", end="", flush=True)
+
+    if verbose and num_batches > 0:
+        # 结束 epoch 后换行
+        print()
+
     return loss_sum / total, correct / total
 
 
@@ -131,7 +161,8 @@ if __name__ == "__main__":
         print(f"  params: {sum(p.numel() for p in model.parameters()):,}")
 
         for epoch in range(5):
-            loss, acc = train(model, dl_train, opt, device)
+            # 将 verbose 打开以打印每轮的 batch 进度，print_every 可调整
+            loss, acc = train(model, dl_train, opt, device, verbose=True, print_every=10)
             scheduler.step()
             test_acc = evaluate(model, dl_test, device)
             print(f"  epoch {epoch+1}:  train_loss={loss:.4f}  "
